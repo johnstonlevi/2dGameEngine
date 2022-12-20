@@ -2,44 +2,45 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "../Logger/Logger.h"
 #include <glm/glm.hpp>
         Game::Game()
         {
             isRunning = false;
-            std::cout << "Game constructor called" << std::endl;
+            Logger::Log("Game constructor called");
         }
 
         Game::~Game()
         {
-            std::cout << "Game destructor called" << std::endl;
+            Logger::Log("Game destructor called");
         }
 
         void Game::Initialize()
         {
             if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-                std::cerr << "Error initializing SDL." << std::endl;
+                Logger::Err("Error initializing SDL.");
                 return;
             }
             SDL_DisplayMode displayMode;
             SDL_GetCurrentDisplayMode(0, &displayMode);
-            windowWidth = 800;//displayMode.w;
-            windowHeight = 600;//displayMode.h;
+            windowWidth = 1280;//displayMode.w;
+            windowHeight = 720;//displayMode.h;
             window = SDL_CreateWindow(
                 "Levi's Game Engine",
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,
                 windowWidth,
                 windowHeight,
-                SDL_WINDOW_BORDERLESS
+                SDL_WINDOW_UTILITY
             );
             if (!window) {
-                std::cerr << "Error creating SDL window." << std::endl;
+                Logger::Err("Error creating SDL window.");
             }
             renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             if (!renderer) {
-                std::cerr << "Error creating SDL renderer." << std::endl;
+                Logger::Err("Error creating SDL renderer.");
             }
-            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+            SDL_SetWindowFullscreen(window, 0);
 
             isRunning = true;
         }
@@ -78,17 +79,19 @@
 
         void Game::Setup() {
             playerPostion = glm::vec2(10.0, 20.0);
-            playerVelocity = glm::vec2(50.0, 0.0);
+            playerVelocity = glm::vec2(250.0, 0.0);
         }
 
         void Game::Update()
         {
             // If we are too fast, we need to slow down until we reach MILLISECS_PER_FRAME
-            int timeToWait = MILLISECS_PER_FRAME - (SDL_GetTicks() - millisecsPreviousFrame);
+            // Uncomment this to cap frame rate
+            /*int timeToWait = MILLISECS_PER_FRAME - (SDL_GetTicks() - millisecsPreviousFrame);
             if (timeToWait > 0 && timeToWait <= MILLISECS_PER_FRAME)
             {
                 SDL_Delay(timeToWait);
-            }
+            }*/
+            
 
             double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
 
@@ -98,7 +101,7 @@
             playerPostion.x += playerVelocity.x * deltaTime;
             playerPostion.y += playerVelocity.y * deltaTime;
 
-            if (playerPostion.x > 1366)
+            if (playerPostion.x > 1280)
             {
                 playerPostion.x = 0;
             }
