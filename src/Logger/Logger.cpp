@@ -24,6 +24,9 @@ void Logger::Log(const std::string& message)
 
     // Push to vector
     messages.push_back(logEntry);
+
+    // Print to terminal
+    std::cout << logEntry.message << std::endl;
 }
 
 void Logger::Wrn(const std::string& message)
@@ -45,6 +48,9 @@ void Logger::Wrn(const std::string& message)
 
     // Push to vector
     messages.push_back(logEntry);
+
+    // Print to terminal
+    std::cout << logEntry.message << std::endl;
 }
 
 void Logger::Err(const std::string& message)
@@ -65,4 +71,7 @@ void Logger::Err(const std::string& message)
 
     // Push to vector
     messages.push_back(logEntry);
+
+    // Print to terminal
+    std::cerr << logEntry.message << std::endl;
 }

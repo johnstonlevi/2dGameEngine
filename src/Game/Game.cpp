@@ -3,7 +3,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "../Logger/Logger.h"
-#include <glm/glm.hpp>
+#include "../ECS/ECS.h"
+//#include <glm/glm.hpp>
+#include "../../libs/glm/glm.hpp"
         Game::Game()
         {
             isRunning = false;
@@ -74,17 +76,19 @@
             }
         }
 
-        glm::vec2 playerPostion;
-        glm::vec2 playerVelocity;
 
         void Game::Setup() {
-            playerPostion = glm::vec2(10.0, 20.0);
-            playerVelocity = glm::vec2(250.0, 0.0);
+            // TODO
+            // Entity tank = registry.CreateEntity();
+            // tank.AddComponent<TransformComponen>();
+            // tank.AddComponent<BoxCollider.Component>();
+            // tank.AddComponent<SpriteComponent>("./assets/images/tank.png");
         }
 
         void Game::Update()
         {
             // If we are too fast, we need to slow down until we reach MILLISECS_PER_FRAME
+            
             // Uncomment this to cap frame rate
             /*int timeToWait = MILLISECS_PER_FRAME - (SDL_GetTicks() - millisecsPreviousFrame);
             if (timeToWait > 0 && timeToWait <= MILLISECS_PER_FRAME)
@@ -98,13 +102,11 @@
             // Store the current frame time
             millisecsPreviousFrame = SDL_GetTicks();
 
-            playerPostion.x += playerVelocity.x * deltaTime;
-            playerPostion.y += playerVelocity.y * deltaTime;
-
-            if (playerPostion.x > 1280)
-            {
-                playerPostion.x = 0;
-            }
+            // TODO:
+            // MovementSystem.Update();
+            // CollisionSystem.Update();
+            // DamageSystem.Update();
+            
         }
 
         void Game::Render()
@@ -112,19 +114,8 @@
             SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
             SDL_RenderClear(renderer);
 
-            // Draw a PNG texture
-            SDL_Surface* surface = IMG_Load("./assets/images/tank-tiger-right.png");
-            SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-            SDL_FreeSurface(surface);
-
-            SDL_Rect destRect = {
-                static_cast<int>(playerPostion.x),
-                static_cast<int>(playerPostion.y),
-                32,
-                32
-            }; // The destination rectangle where we will place the texture
-            SDL_RenderCopy(renderer, texture, NULL, &destRect);
-            SDL_DestroyTexture(texture);
+            // TODO:
+            // Render Game Objects
 
             SDL_RenderPresent(renderer); // Double buffer rendering
         }
